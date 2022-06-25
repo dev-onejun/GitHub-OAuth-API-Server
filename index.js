@@ -53,9 +53,7 @@ githubProxy.on('proxyRes', (proxyResponse, request, response) => {
         } = octokit.request("GET /user");
 
         response_data = {
-            id: id,
-            avatar_url: avatar_url,
-            name: name,
+            access_token: id,
         };
 
         pool.query_insert_user(id, avatar_url, name, (error) => {
@@ -66,7 +64,7 @@ githubProxy.on('proxyRes', (proxyResponse, request, response) => {
         });
     });
 });
-app.get('/login', (request, response) => {
+app.get('/githubOAuthLogin', (request, response) => {
     githubProxy.web(request, response, {
         target: GITHUB_OAUTH_URL,
         selfHandleResponse: true
