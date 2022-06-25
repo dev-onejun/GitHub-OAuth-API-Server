@@ -28,7 +28,6 @@ proxy.on('proxyRes', (proxyResponse, request, response) => {
 
     proxyResponse.on('end', () => {
         data = Buffer.concat(proxy_response_body).toString();
-        console.log(data);
         //proxy_response_body = JSON.parse(data);
 
         const id            = proxy_response_body.data.id;
@@ -70,6 +69,7 @@ app.get('/githubOAuthLogin', (request, response) => {
         request.body = {
             access_token: res.data.access_token,
         };
+        console.log(res.data.access_token);
 
         proxy.web(request, response, {
             target: 'http://api.github.com',
