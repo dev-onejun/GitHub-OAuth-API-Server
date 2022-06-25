@@ -16,6 +16,9 @@ const pool = require('./lib/mysql_config.js');
 githubProxy.on('proxyReq', (proxyRequest, request, response) => {
     const code = request.query.code;
 
+    console.log(request.query.code);
+    console.log(code);
+
     const bodyData = {
         client_id           : '17e8286991a1ddce2954',
         client_secret       : '0f2c8b8314ab7523892519ab8db3cb3f5679c3e7',
