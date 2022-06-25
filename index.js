@@ -15,46 +15,6 @@ const proxy = httpProxy.createProxyServer({});
 
 app.use(cors());
 
-proxy.on('proxyReq', (proxyRequest, request, response) => {
-    proxyRequest.path = '/user';
-    proxyRequest.setHeader('Authorization', `token ${request.body.access_token}`);
-    console.log(request.body.access_token);
-});
-proxy.on('proxyRes', (proxyResponse, request, response) => {
-    var proxy_response_body = [];
-
-    proxyResponse.on('data', d => {
-        proxy_response_body.push(d);
-    });
-
-    proxyResponse.on('end', () => {
-        data = Buffer.concat(proxy_response_body).toString();
-        //proxy_response_body = JSON.parse(data);
-
-        const id            = proxy_response_body.data.id;
-        const avatar_url    = proxy_response_body.data.avatar_url;
-        const name          = proxy_response_body.data.name;
-
-        pool.query_insert_user(id, avatar_url, name, error => {
-            if(error){
-                const response_data = {
-                    id: '',
-                    avatar_url: '',
-                    name: '',
-                };
-                response.send(response_data);
-            }
-            else {
-                const response_data = {
-                    id: id,
-                    avatar_url: avatar_url,
-                    name: name,
-                };
-                response.send(response_data);
-            }
-        });
-    });
-});
 app.get('/githubOAuthLogin', (request, response) => {
     const client_id = '17e8286991a1ddce2954';
     const client_secret = '0f2c8b8314ab7523892519ab8db3cb3f5679c3e7';
@@ -67,15 +27,19 @@ app.get('/githubOAuthLogin', (request, response) => {
             accept: 'application/json'
         },
     }).then((res) => {
-        request.body = {
-            access_token: res.data.access_token,
-        };
-        console.log(res.data.access_token);
-
-        proxy.web(request, response, {
-            target: 'https://api.github.com',
-            selfHandleResponse: true
-        });
+        access_token = res.data.access_token;
+        response.redirect('/success');
+    });
+});
+app.get('/success', (request, response) => {
+    axios({
+        method: 'get',
+        url: 'https://api.github.com/user',
+        headers: {
+            Authorization: 'token ' + access_token
+        },
+    }).then((res) => {
+        response.send(res.data);
     });
 });
 
