@@ -55,7 +55,7 @@ app.get('/success', (request, response) => {
                     avatar_url: avatar_url,
                     name: name,
                 };
-                response_send(response_data);
+                response.send(response_data);
             }
         });
     });
