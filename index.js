@@ -24,11 +24,11 @@ app.get('/githubOAuthLogin', (request, response) => {
         },
     }).then((res) => {
         access_token = res.data.access_token;
-        response.redirect('/main');
+        response.redirect('/callback');
     });
 });
 
-app.get('/main', (request, response) => {
+app.get('/callback', (request, response) => {
     axios({
         method: 'get',
         url: `http://api.github.com/user`,
