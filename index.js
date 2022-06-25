@@ -40,7 +40,11 @@ app.get('/callback', (request, response) => {
         const avatar_url    = res.data.avatar_url;
         const name          = res.data.name;
 
-        pool.query_insert_user(id, avatar_url, name, error => {
+        console.log(response);
+
+        response.send();
+
+        /*pool.query_insert_user(id, avatar_url, name, error => {
             if(error) {
                 const response_data = {
                     id: '',
@@ -55,7 +59,7 @@ app.get('/callback', (request, response) => {
                     avatar_url: avatar_url,
                     name: name,
                 };
-                response.send(response_data);
+                response.send(response_data);*/
             }
         });
     });
