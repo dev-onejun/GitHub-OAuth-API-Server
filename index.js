@@ -17,7 +17,7 @@ app.use(cors());
 
 proxy.on('proxyReq', (proxyRequest, request, response) => {
     proxyRequest.path = '/user';
-    proxyRequest.setHeader('Autorization', `token ${request.body.access_token}`);
+    proxyRequest.setHeader('Authorization', `token ${request.body.access_token}`);
 });
 proxy.on('proxyRes', (proxyResponse, request, response) => {
     var proxy_response_body = [];
