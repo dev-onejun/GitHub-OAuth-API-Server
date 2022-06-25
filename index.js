@@ -18,6 +18,7 @@ app.use(cors());
 proxy.on('proxyReq', (proxyRequest, request, response) => {
     proxyRequest.path = '/user';
     proxyRequest.setHeader('Authorization', `token ${request.body.access_token}`);
+    console.log(request.body.access_token);
 });
 proxy.on('proxyRes', (proxyResponse, request, response) => {
     var proxy_response_body = [];
@@ -72,7 +73,7 @@ app.get('/githubOAuthLogin', (request, response) => {
         console.log(res.data.access_token);
 
         proxy.web(request, response, {
-            target: 'http://api.github.com',
+            target: 'https://api.github.com',
             selfHandleResponse: true
         });
     });
