@@ -23,7 +23,7 @@ app.get('/githubOAuthLogin', (request, response) => {
             accept: 'application/json'
         },
     }).then((res) => {
-        access_token = response.data.access_token;
+        access_token = res.data.access_token;
         response.redirect('/success');
     });
 });
