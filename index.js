@@ -21,6 +21,7 @@ githubProxy.on('proxyReq', (proxyRequest, request, response) => {
         client_secret       : '0f2c8b8314ab7523892519ab8db3cb3f5679c3e7',
         code                : request.query.code,
     };
+    console.log(bodyData);
     proxyRequest.setHeader('Content-Type', 'application/json');
     proxyRequest.setHeader('Content-Length', Buffer.byteLength(bodyData));
     proxyRequest.setHeader('Accept', 'application/json');
