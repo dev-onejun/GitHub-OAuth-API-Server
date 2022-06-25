@@ -15,32 +15,40 @@ const proxy = httpProxy.createProxyServer({});
 proxy.on('proxyReq', (proxyRequest, request, response) => {
     proxyRequest.path = '/user';
     proxyRequest.setHeader('Autorization', `token ${request.body.access_token}`);
-
-    console.log(proxyRequest);
-    proxyRequest.write();
 });
 proxy.on('proxyRes', (proxyResponse, request, response) => {
-    const id            = proxyResponse.data.id;
-    const avatar_url    = proxyResponse.data.avatar_url;
-    const name          = proxyResponse.data.name;
+    var proxy_response_body = [];
 
-    pool.query_insert_user(id, avatar_url, name, error => {
-        if(error) {
-            const response_data = {
-                id: '',
-                avatar_url: '',
-                name: '',
-            };
-            response.send(rseponse_data);
-        }
-        else {
-            const response_data = {
-                id: id,
-                avatar_url: avatar_url,
-                name: name,
-            };
-            response.send(response_data);
-        }
+    proxyResponse.on('data', d => {
+        proxy_response_body.push(d);
+    });
+
+    proxyResponse.on('end', () => {
+        data = Buffer.concat(proxy_response_body).toString();
+        proxy_response_body = JSON.parse(data);
+
+        const id            = proxy_response_body.data.id;
+        const avatar_url    = proxy_response_body.data.avatar_url;
+        const name          = proxy_response_body.data.name;
+
+        pool.query_insert_user(id, avatar_url, name, error => {
+            if(error){
+                const response_data = {
+                    id: '',
+                    avatar_url: '',
+                    name: '',
+                };
+                response.send(response_data);
+            }
+            else {
+                const response_data = {
+                    id: id,
+                    avatar_url: avatar_url,
+                    name: name,
+                };
+                response.send(response_data);
+            }
+        });
     });
 });
 app.get('/githubOAuthLogin', (request, response) => {
