@@ -28,7 +28,8 @@ proxy.on('proxyRes', (proxyResponse, request, response) => {
 
     proxyResponse.on('end', () => {
         data = Buffer.concat(proxy_response_body).toString();
-        proxy_response_body = JSON.parse(data);
+        console.log(data);
+        //proxy_response_body = JSON.parse(data);
 
         const id            = proxy_response_body.data.id;
         const avatar_url    = proxy_response_body.data.avatar_url;
