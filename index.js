@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const PORT = 9081;
+const cors = require('cors');
 
 const GITHUB_OAUTH_URL = 'http://github.com/login/oauth/access_token';
 
@@ -11,6 +12,8 @@ const pool = require('./lib/mysql_config.js');
 
 var access_token = '';
 const proxy = httpProxy.createProxyServer({});
+
+app.use(cors());
 
 proxy.on('proxyReq', (proxyRequest, request, response) => {
     proxyRequest.path = '/user';
