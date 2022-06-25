@@ -5,7 +5,7 @@ const PORT = 9081;
 const GITHUB_OAUTH_URL = 'http://github.com/login/oauth/access_token';
 
 const axios = require('axios');
-const { Octokit, App } = require('octokit');
+//const { Octokit, App } = require('octokit');
 
 const pool = require('./lib/mysql_config.js');
 
@@ -16,7 +16,7 @@ app.get('/githubOAuthLogin', (request, response) => {
 
     axios({
         method: 'post',
-        url: `${GITHUB_OAUTH_URL}?client_id=${client_id}&client_secret=${clientSecret}&code=${requestToken}`,
+        url: `${GITHUB_OAUTH_URL}?client_id=${client_id}&client_secret=${client_secret}&code=${code}`,
         headers: {
             accept: 'application/json'
         },
