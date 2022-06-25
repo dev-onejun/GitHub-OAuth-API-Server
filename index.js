@@ -36,7 +36,8 @@ app.get('/success', (request, response) => {
             Authorization: 'token ' + access_token
         },
     }).then((res) => {
-        response.send({ access_token: response.data });
+        console.log(res.data);
+        response.send({ access_token: res.data });
     });
 });
 
