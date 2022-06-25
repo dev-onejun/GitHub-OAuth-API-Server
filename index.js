@@ -16,6 +16,7 @@ proxy.on('proxyReq', (proxyRequest, request, response) => {
     proxyRequest.path = '/user';
     proxyRequest.setHeader('Autorization', `token ${request.body.access_token}`);
 
+    console.log(proxyRequest);
     proxyRequest.write();
 });
 proxy.on('proxyRes', (proxyResponse, request, response) => {
