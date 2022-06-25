@@ -36,8 +36,28 @@ app.get('/success', (request, response) => {
             Authorization: 'token ' + access_token
         },
     }).then((res) => {
-        console.log(res.data);
-        response.send({ access_token: res.data });
+        const id            = res.data.id;
+        const avatar_url    = res.data.avatar_url;
+        const name          = res.data.name;
+
+        pool.query_insert_user(id, avatar_url, name, error => {
+            if(error) {
+                const response_data = {
+                    id: '',
+                    avatar_url: '',
+                    name: '',
+                };
+            }
+            else {
+                const response_data = {
+                    id: id,
+                    avatar_url: avatar_url,
+                    name: name,
+                };
+            }
+
+            response.send(response_data);
+        });
     });
 });
 
