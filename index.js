@@ -9,6 +9,8 @@ const axios = require('axios');
 
 const pool = require('./lib/mysql_config.js');
 
+access_token = '';
+
 app.get('/githubOAuthLogin', (request, response) => {
     const client_id = '17e8286991a1ddce2954';
     const client_secret = '0f2c8b8314ab7523892519ab8db3cb3f5679c3e7';
