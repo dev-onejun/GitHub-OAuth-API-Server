@@ -16,8 +16,8 @@ const proxy = httpProxy.createProxyServer({});
 app.use(cors());
 
 app.get('/githubOAuthLogin', (request, response) => {
-    const client_id = '17e8286991a1ddce2954';
-    const client_secret = '0f2c8b8314ab7523892519ab8db3cb3f5679c3e7';
+    const client_id = '';
+    const client_secret = '';
     const code = request.query.code;
 
     axios({
