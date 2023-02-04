@@ -1,4 +1,3 @@
 node_modules/*
-test_codes/*
 
-lib/mysql_config.js
+.env
