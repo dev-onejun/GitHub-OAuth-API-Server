@@ -33,7 +33,7 @@ git clone git@github.com:dev-onejun/GitHub-OAuth-API-Server.git
 2. set GitHub `CLIENT_SECRET` as an environment variable.
 
 ``` bash
-$ export CLIENT_SECRET=$(Please_fill_here_as_your_secret)
+$ export CLIENT_SECRET=abc1234def56
 ```
 
 3. run `npm install`
