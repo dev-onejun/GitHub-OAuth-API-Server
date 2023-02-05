@@ -1,6 +1,8 @@
 # api_group_sharing
 
-[2022.06.25-26] GDG Campus Korea Summer Hackathon, the part of servers of SHARE PLATE (Team 15)
+[2022.06.25-26] GDG Campus Korea Summer Hackathon, the part of servers of SHARE PLATE (Team 15).\
+\
+The server is oriented as micro-service architecture about GitHub login.
 
 ## References
 
