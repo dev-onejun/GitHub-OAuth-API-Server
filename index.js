@@ -7,8 +7,6 @@ const GITHUB_OAUTH_URL = 'http://github.com/login/oauth/access_token';
 
 const axios = require('axios');
 
-require('dotenv').config();
-
 app.use(cors());
 
 app.get('/GitHubAccessToken', (request, response) => {
