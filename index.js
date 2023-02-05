@@ -7,15 +7,13 @@ const GITHUB_OAUTH_URL = 'http://github.com/login/oauth/access_token';
 
 const axios = require('axios');
 
-require('dotenv').config();
-
 app.use(cors());
 
-var access_token = '';
-app.get('/githubOAuthLogin', (request, response) => {
-
-    const client_id = process.env.CLIENT_ID;
+app.get('/GitHubAccessToken', (request, response) => {
     const client_secret = process.env.CLIENT_SECRET;
+
+    const client_id = request.query.client_id
+    const redirect_url = request.query.redirect_url;
     const code = request.query.code;
 
     axios({
@@ -26,21 +24,8 @@ app.get('/githubOAuthLogin', (request, response) => {
         },
     }).then((res) => {
         access_token = res.data.access_token;
-        response.redirect('/success');
-    });
-
-});
-
-app.get('/success', (request, response) => {
-
-    axios({
-        method: 'get',
-        url: 'https://api.github.com/user',
-        headers: {
-            Authorization: 'token ' + access_token
-        },
-    }).then((res) => {
-        response.send(res.data);
+        response.append('access_token', access_token);
+        response.redirect(redirect_url);
     });
 
 });
