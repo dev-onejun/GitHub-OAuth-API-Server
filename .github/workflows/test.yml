@@ -34,7 +34,12 @@ jobs:
       - name: Run the server locally
         env:
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-        run: npm run-script run
+        run: |
+          npm run-script run & echo $! > server.pid
+          sleep 3
+
+      - name: Stop the server
+        run: kill $(cat server.pid)
 
   test-docker:
     runs-on: ubuntu-latest
