@@ -1,0 +1,55 @@
+name: Test Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-local:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: "lts/*"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      #- name: Run tests
+        #run: npm test
+
+      - name: Run the server locally
+        env:
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        run: npm run-script run
+
+  test-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build the Docker image
+        run: docker build -t github-oauth-api .
+
+      - name: Run Docker Container
+        env:
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        run: docker run -d --env CLIENT_SECRET=$CLIENT_SECRET -p 9081:9081 github-oauth-api
+
+      - name: Stop Docker Container
+        run: docker ps -q --filter ancestor=github-oauth-api | xargs -r docker stop
